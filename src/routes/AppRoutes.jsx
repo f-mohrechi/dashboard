@@ -1,35 +1,34 @@
-import React from 'react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import Home from '../pages/Home';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
+import AuthLayout from '../layout/AuthLayout';
+import DashboardLayout from '../layout/DashboardLayout';
 import Login from '../pages/Login';
-import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
+import UserList from '../features/user/UserList';
+import UserProfile from '../features/user/UserProfile';
 import { useAuth } from '../hooks/useAuth';
 
-const PrivateRoute = ({ children }) => {
+function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
-};
+  return isAuthenticated ? children : <Navigate to="/login" />;
+}
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Home />
+    element: <AuthLayout />, children: [
+      { path: '/login', element: <Login /> },
+    ]
   },
   {
-    path: '/login',
-    element: <Login />
-  },
-  {
-    path: '/dashboard',
     element: (
       <PrivateRoute>
-        <Dashboard />
+        <DashboardLayout />
       </PrivateRoute>
-    )
+    ),
+    children: [
+      { path: '/dashboard', element: <Navigate to="/dashboard/users" /> },
+      { path: '/dashboard/users', element: <UserList /> },
+      { path: '/dashboard/profile/:id', element: <UserProfile /> },
+    ]
   },
-  {
-    path: '*',
-    element: <NotFound />
-  }
+  { path: '*', element: <NotFound /> }
 ]);

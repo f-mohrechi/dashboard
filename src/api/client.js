@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const client = axios.create({
   baseURL: 'https://jsonplaceholder.typicode.com',
-  withCredentials: true,
+  withCredentials: false,
 });
 
 export default client;

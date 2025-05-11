@@ -1,22 +1,21 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 
-const Login = () => {
+export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    login();
+    login('secure-token');
     navigate('/dashboard');
   };
 
   return (
-    <div>
-      <h1>Login Page</h1>
-      <button onClick={handleLogin}>Log In</button>
-    </div>
+    <button
+      onClick={handleLogin}
+      className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+    >
+      Login
+    </button>
   );
-};
-
-export default Login;
+}

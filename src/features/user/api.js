@@ -1,7 +1,7 @@
-import client from "../api/client";
+import client from '../../api/client';
 
 export const fetchUsers = async () => {
-  const { data } = await client.get("/users");
+  const { data } = await client.get('/users');
   return data;
 };
 
